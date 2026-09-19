@@ -1,4 +1,4 @@
-FROM php:8.3-cli-alpine
+FROM php:8.4-cli-alpine
 
 # Dependências do sistema necessárias para as extensões PHP e para o Composer
 RUN apk add --no-cache \

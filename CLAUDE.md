@@ -237,17 +237,44 @@ conseguir explicar linha a linha.
 
 ## 13. Estado atual
 
+Atualizado em 2026-09-19.
+
 - [x] Estrutura de pastas e Docker Compose
-- [ ] Laravel instalado em `api/` (rodar `scripts/bootstrap.sh`)
-- [ ] React + TS + Vite instalado em `web/`
-- [ ] Migration + enums + model `Solicitacao`
-- [ ] Máquina de transição de status + testes
+- [x] Laravel 13 instalado em `api/` (PHP 8.4)
+- [x] React + TypeScript + Vite instalado em `web/`
+- [x] Ambiente subindo: `docker compose up` com os três containers
+- [x] Rota de health check verificando a conexão com o Postgres
+- [x] Migration da tabela `solicitacoes`
+- [ ] Enums `Status`, `Categoria`, `Prioridade`
+- [ ] Model `Solicitacao` (atenção: precisa de `$table = 'solicitacoes'`)
+- [ ] Máquina de transição de status + teste
+- [ ] Form Requests de criação e de mudança de status
 - [ ] Endpoints da API v1
-- [ ] OpenAPI em `docs/openapi.yaml`
-- [ ] Frontend: listagem, filtros, formulário, detalhe, troca de status
-- [ ] Seeders com dados fictícios
-- [ ] Testes de frontend
+- [ ] Resource traduzindo `created_at` → `data_criacao`
+- [ ] Seeder de solicitações (idempotente)
+- [ ] Frontend: tipos, cliente HTTP, listagem, filtros, formulário, detalhe, troca de status
+- [ ] Teste de frontend
+- [ ] Resolver a `APP_KEY` para o clone limpo funcionar
+- [ ] Decidir o que fazer com as tabelas `users`, `cache` e `jobs`, que o domínio não usa
 - [ ] README final + `docs/USO-DE-IA.md`
+
+### Decisões já tomadas
+
+- **Sem autenticação.** O escopo do desafio não define perfis distintos. Uma
+  frase no README explica a decisão e como seria feito se necessário.
+- **`created_at` / `updated_at` no banco**, traduzidos para `data_criacao` e
+  `data_atualizacao` na resposta da API. Respeita o contrato do desafio sem
+  brigar com o padrão do framework.
+- **Enums como `string` no banco**, com a lista de valores válidos vivendo nos
+  PHP backed enums. Alternativa considerada e descartada: tipo enum nativo do
+  Postgres, que é rígido para alterar e divide a fonte da verdade.
+- **Três índices**, um por filtro previsto na listagem. Nenhum a mais.
+- **Seeders precisam ser idempotentes**, porque o `command` do serviço `api`
+  roda `db:seed` a cada subida do container.
+- **Servidor embutido do Laravel** (`artisan serve`) em vez de nginx com
+  php-fpm: menos peças para falhar na avaliação.
+- **Nenhuma biblioteca de terceiro adicionada** além do que Laravel e Vite
+  trazem por padrão.
 
 ---
 

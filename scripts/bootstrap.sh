@@ -13,6 +13,8 @@ echo "==> 2/4  Instalando Laravel em api/"
 if [ -f api/artisan ]; then
   echo "    api/ já tem um Laravel instalado, pulando."
 else
+  # O Composer recusa instalar em pasta nao vazia, e o .gitkeep conta.
+  rm -f api/.gitkeep
   docker run --rm -v "$ROOT/api":/app -w /app composer:2 \
     composer create-project laravel/laravel . --no-interaction
 fi
@@ -21,8 +23,9 @@ echo "==> 3/4  Criando React + TypeScript (Vite) em web/"
 if [ -f web/package.json ]; then
   echo "    web/ já tem um projeto, pulando."
 else
+  rm -f web/.gitkeep
   docker run --rm -v "$ROOT/web":/app -w /app node:20-alpine \
-    sh -c "npm create vite@latest . -- --template react-ts --yes"
+    sh -c "npm create vite@latest . -- --template react-ts"
 fi
 
 echo "==> 4/4  Ajustando o .env do Laravel para o Postgres do compose"
