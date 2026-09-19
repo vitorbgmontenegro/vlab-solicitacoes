@@ -1,0 +1,32 @@
+# Ambiente
+.env
+.env.*
+!.env.example
+
+# PHP / Laravel
+/api/vendor/
+/api/storage/*.key
+/api/storage/logs/*
+/api/storage/framework/cache/*
+/api/storage/framework/sessions/*
+/api/storage/framework/views/*
+/api/bootstrap/cache/*
+/api/.phpunit.result.cache
+
+# Node / React
+node_modules/
+/web/dist/
+/web/.vite/
+npm-debug.log*
+
+# Editores e SO
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Testes E2E
+/web/cypress/videos/
+/web/cypress/screenshots/
+/web/playwright-report/
+/web/test-results/
