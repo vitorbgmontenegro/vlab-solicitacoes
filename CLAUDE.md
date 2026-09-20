@@ -245,9 +245,9 @@ Atualizado em 2026-09-19.
 - [x] Ambiente subindo: `docker compose up` com os três containers
 - [x] Rota de health check verificando a conexão com o Postgres
 - [x] Migration da tabela `solicitacoes`
-- [ ] Enums `Status`, `Categoria`, `Prioridade`
+- [x] Enums `Status`, `Categoria`, `Prioridade`
 - [ ] Model `Solicitacao` (atenção: precisa de `$table = 'solicitacoes'`)
-- [ ] Máquina de transição de status + teste
+- [x] Máquina de transição de status + teste (17 casos, `tests/Unit/StatusTransicaoTest.php`)
 - [ ] Form Requests de criação e de mudança de status
 - [ ] Endpoints da API v1
 - [ ] Resource traduzindo `created_at` → `data_criacao`
