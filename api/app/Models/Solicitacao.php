@@ -5,11 +5,15 @@ namespace App\Models;
 use App\Enums\Categoria;
 use App\Enums\Prioridade;
 use App\Enums\Status;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class Solicitacao extends Model
 {
+    /** Habilita Solicitacao::factory(), usada nos testes e nos seeders. */
+    use HasFactory;
+
     /**
      * O Eloquent deriva o nome da tabela pluralizando o nome da classe em
      * inglês, o que daria "solicitacaos". Por isso o nome é explícito aqui.

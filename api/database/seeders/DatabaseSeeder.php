@@ -2,26 +2,24 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
     /**
-     * Popula o banco com dados fictícios.
+     * Popula o banco com dados ficticios.
      *
-     * Este seeder roda a cada subida do container (ver o `command` do serviço
-     * `api` no docker-compose.yml), então tudo aqui precisa ser idempotente:
-     * rodar duas vezes não pode quebrar nem duplicar dado.
+     * Este seeder roda a cada subida do container (ver o `command` do servico
+     * `api` no docker-compose.yml), entao tudo aqui precisa ser idempotente:
+     * rodar duas vezes nao pode quebrar nem duplicar dado.
      *
-     * O seeder padrão do Laravel criava um usuário de teste fixo e violava a
-     * restrição de unicidade do e-mail na segunda execução. Removido porque
-     * este projeto não tem autenticação nem usuários.
+     * Nao usa WithoutModelEvents de proposito. Esse trait desliga os eventos
+     * do Eloquent, e o model Solicitacao depende do evento `creating` para
+     * gerar o protocolo e definir o status inicial. Com os eventos desligados,
+     * os registros nasceriam sem protocolo.
      */
     public function run(): void
     {
-        // $this->call(SolicitacaoSeeder::class);
+        $this->call(SolicitacaoSeeder::class);
     }
 }

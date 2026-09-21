@@ -8,7 +8,9 @@ services:
       POSTGRES_USER: ${DB_USERNAME:-vlab}
       POSTGRES_PASSWORD: ${DB_PASSWORD:-vlab_dev}
     ports:
-      - "${DB_PORT_HOST:-5432}:5432"
+      # 5433 no host por padrao, e nao 5432, para nao colidir com um
+      # Postgres ja instalado na maquina de quem for executar.
+      - "${DB_PORT_HOST:-5433}:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
     healthcheck:
@@ -24,18 +26,13 @@ services:
     container_name: vlab_api
     restart: unless-stopped
     working_dir: /var/www/html
-    environment:
-      APP_ENV: ${APP_ENV:-local}
-      APP_DEBUG: ${APP_DEBUG:-true}
-      APP_LOCALE: pt_BR
-      APP_FALLBACK_LOCALE: en
-      APP_URL: http://localhost:${API_PORT:-8000}
-      DB_CONNECTION: pgsql
-      DB_HOST: db
-      DB_PORT: 5432
-      DB_DATABASE: ${DB_DATABASE:-solicitacoes}
-      DB_USERNAME: ${DB_USERNAME:-vlab}
-      DB_PASSWORD: ${DB_PASSWORD:-vlab_dev}
+    # A configuracao do Laravel vem exclusivamente de api/.env, criado a partir
+    # de api/.env.example na primeira subida (ver o command abaixo).
+    #
+    # Nada e injetado como variavel de ambiente do container de proposito:
+    # variavel de ambiente vence qualquer outra fonte, inclusive a configuracao
+    # de teste do phpunit.xml. Com DB_CONNECTION injetado aqui, a suite rodava
+    # contra o Postgres de desenvolvimento e apagava os dados a cada execucao.
     volumes:
       - ./api:/var/www/html
     ports:
@@ -44,7 +41,8 @@ services:
       db:
         condition: service_healthy
     command: >
-      sh -c "if [ ! -f .env ]; then cp .env.example .env; fi &&
+      sh -c "if [ ! -d vendor ]; then composer install --no-interaction; fi &&
+             if [ ! -f .env ]; then cp .env.example .env; fi &&
              if ! grep -q '^APP_KEY=base64' .env; then php artisan key:generate --force; fi &&
              php artisan migrate --force &&
              php artisan db:seed --force &&
