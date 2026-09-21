@@ -27,6 +27,8 @@ services:
     environment:
       APP_ENV: ${APP_ENV:-local}
       APP_DEBUG: ${APP_DEBUG:-true}
+      APP_LOCALE: pt_BR
+      APP_FALLBACK_LOCALE: en
       APP_URL: http://localhost:${API_PORT:-8000}
       DB_CONNECTION: pgsql
       DB_HOST: db
@@ -42,7 +44,9 @@ services:
       db:
         condition: service_healthy
     command: >
-      sh -c "php artisan migrate --force &&
+      sh -c "if [ ! -f .env ]; then cp .env.example .env; fi &&
+             if ! grep -q '^APP_KEY=base64' .env; then php artisan key:generate --force; fi &&
+             php artisan migrate --force &&
              php artisan db:seed --force &&
              php artisan serve --host=0.0.0.0 --port=8000"
 
