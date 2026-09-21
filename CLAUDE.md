@@ -237,7 +237,7 @@ conseguir explicar linha a linha.
 
 ## 13. Estado atual
 
-Atualizado em 2026-09-19.
+Atualizado em 2026-09-21. Backend concluido.
 
 - [x] Estrutura de pastas e Docker Compose
 - [x] Laravel 13 instalado em `api/` (PHP 8.4)
@@ -246,16 +246,17 @@ Atualizado em 2026-09-19.
 - [x] Rota de health check verificando a conexão com o Postgres
 - [x] Migration da tabela `solicitacoes`
 - [x] Enums `Status`, `Categoria`, `Prioridade`
-- [ ] Model `Solicitacao` (atenção: precisa de `$table = 'solicitacoes'`)
+- [x] Model `Solicitacao` (com `$table`, `$fillable`, casts e geracao de protocolo)
 - [x] Máquina de transição de status + teste (17 casos, `tests/Unit/StatusTransicaoTest.php`)
-- [ ] Form Requests de criação e de mudança de status
-- [ ] Endpoints da API v1
-- [ ] Resource traduzindo `created_at` → `data_criacao`
-- [ ] Seeder de solicitações (idempotente)
+- [x] Form Requests de criacao, de mudanca de status e de filtros da listagem
+- [x] Endpoints da API v1 (listar, criar, detalhar, mudar status) + health check
+- [x] Resource traduzindo `created_at` -> `data_criacao` e expondo `proximos_status_permitidos`
+- [x] Seeder idempotente com 8 registros fixos cobrindo todos os status
+- [x] Teste de integracao da API (8 casos, `tests/Feature/SolicitacaoApiTest.php`)
 - [ ] Frontend: tipos, cliente HTTP, listagem, filtros, formulário, detalhe, troca de status
 - [ ] Teste de frontend
-- [ ] Resolver a `APP_KEY` para o clone limpo funcionar
-- [ ] Decidir o que fazer com as tabelas `users`, `cache` e `jobs`, que o domínio não usa
+- [x] Clone limpo testado de verdade: `docker compose up --build` faz tudo sozinho
+- [x] Removidas as tabelas `users`, `cache` e `jobs`: o schema tem so `solicitacoes`
 - [ ] README final + `docs/USO-DE-IA.md`
 
 ### Decisões já tomadas
@@ -275,6 +276,14 @@ Atualizado em 2026-09-19.
   php-fpm: menos peças para falhar na avaliação.
 - **Nenhuma biblioteca de terceiro adicionada** além do que Laravel e Vite
   trazem por padrão.
+- **Configuracao do Laravel vem so de `api/.env`.** Nada e injetado como
+  variavel de ambiente do container: variavel de ambiente vence o
+  `phpunit.xml`, e com `DB_CONNECTION` injetado a suite rodava contra o
+  Postgres de desenvolvimento e apagava os dados a cada execucao.
+- **Testes rodam em SQLite na memoria.** Ressalva conhecida: uma diferenca de
+  comportamento entre SQLite e Postgres nao seria detectada.
+- **O container instala `vendor` e gera `.env` e `APP_KEY` na subida**, para
+  que um clone limpo funcione com um unico `docker compose up --build`.
 
 ---
 
