@@ -18,8 +18,13 @@ import { useSolicitacoes } from './useSolicitacoes';
  */
 export function ListaSolicitacoes({
   filtros = {},
+  aoMudarPagina,
+  aoMudarDados,
 }: {
   filtros?: FiltrosSolicitacao;
+  aoMudarPagina: (pagina: number) => void;
+  /** Avisa o App que os dados mudaram, para o resumo recontar. */
+  aoMudarDados: () => void;
 }) {
   const { estado, recarregar } = useSolicitacoes(filtros);
   const [selecionada, setSelecionada] = useState<Solicitacao | null>(null);
@@ -27,6 +32,7 @@ export function ListaSolicitacoes({
   function aoAtualizarStatus(atualizada: Solicitacao) {
     setSelecionada(atualizada);
     recarregar();
+    aoMudarDados();
   }
 
   let corpo;
@@ -121,6 +127,32 @@ export function ListaSolicitacoes({
             </tbody>
           </table>
         </div>
+
+        {meta.last_page > 1 && (
+          <nav className="paginacao" aria-label="Paginacao da listagem">
+            <button
+              type="button"
+              className="botao botao--secundario"
+              disabled={meta.current_page <= 1}
+              onClick={() => aoMudarPagina(meta.current_page - 1)}
+            >
+              Anterior
+            </button>
+
+            <span className="paginacao__indicador" aria-live="polite">
+              Pagina {meta.current_page} de {meta.last_page}
+            </span>
+
+            <button
+              type="button"
+              className="botao botao--secundario"
+              disabled={meta.current_page >= meta.last_page}
+              onClick={() => aoMudarPagina(meta.current_page + 1)}
+            >
+              Proxima
+            </button>
+          </nav>
+        )}
       </section>
     );
   }

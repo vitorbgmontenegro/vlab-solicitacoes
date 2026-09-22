@@ -10,6 +10,7 @@ import type {
   FiltrosSolicitacao,
   NovaSolicitacao,
   Pagina,
+  ResumoSolicitacoes,
   Solicitacao,
   Status,
 } from '../types/solicitacao';
@@ -81,6 +82,14 @@ export async function atualizarStatus(
       method: 'PATCH',
       body: JSON.stringify({ status }),
     },
+  );
+  return resposta.data;
+}
+
+/** GET /solicitacoes/resumo */
+export async function buscarResumo(): Promise<ResumoSolicitacoes> {
+  const resposta = await requisitar<Envelope<ResumoSolicitacoes>>(
+    '/solicitacoes/resumo',
   );
   return resposta.data;
 }

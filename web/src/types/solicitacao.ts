@@ -108,3 +108,9 @@ export type Pagina<T> = {
     total: number;
   };
 };
+
+/** Contagem por status, usada na tela inicial. */
+export type ResumoSolicitacoes = {
+  total: number;
+  por_status: Record<Status, number>;
+};
