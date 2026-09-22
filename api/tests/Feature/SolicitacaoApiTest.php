@@ -131,6 +131,6 @@ class SolicitacaoApiTest extends TestCase
         $resposta = $this->getJson('/api/v1/solicitacoes/999');
 
         $resposta->assertNotFound();
-        $resposta->assertExactJson(['message' => 'Recurso nao encontrado.']);
+        $resposta->assertExactJson(['message' => 'Recurso não encontrado.']);
     }
 }

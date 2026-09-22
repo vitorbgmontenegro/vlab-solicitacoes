@@ -1,142 +1,86 @@
-# Inventário: o que foi escrito à mão e o que foi gerado
+# Autoria do código
 
-Registro honesto de origem de cada arquivo do repositório. Serve para eu saber o
-que é meu, o que é do framework e o que foi baixado, e para preencher a seção de
-uso de IA do README.
-
-Atualizado em 2026-09-19.
+Registro do que foi escrito para este projeto, separado do que veio pronto do
+Laravel, do Vite e das dependências. Complementa a seção de uso de IA do
+README.
 
 ---
 
-## Como conferir isso sozinho, sem acreditar em mim
+## Arquivos escritos para o projeto
 
-O primeiro commit do projeto foi feito **antes** de qualquer instalação. Então:
+### Infraestrutura
 
-```bash
-git ls-files
-```
-
-O que essa lista mostrar foi escrito à mão. Tudo o mais que existe na pasta
-ainda está sem rastreamento no Git, ou seja, apareceu depois, gerado por
-ferramenta.
-
-```bash
-git status --short          # o que apareceu depois
-find api -type f | wc -l    # a dimensão do que foi baixado
-```
-
----
-
-## Fase 1 — Escrito à mão, antes de instalar qualquer coisa
-
-13 arquivos. Nenhum deles foi gerado por ferramenta.
-
-| Arquivo | O que é |
+| Arquivo | O que define |
 |---|---|
-| `docker-compose.yml` | Define os três serviços: `db`, `api`, `web`. Portas, variáveis, volumes, ordem de subida. |
-| `docker/api/Dockerfile` | Receita do container de PHP: imagem base e extensões. |
-| `docker/web/Dockerfile` | Receita do container de Node. |
-| `.env.example` | Modelo de configuração, sem segredo real. |
-| `.gitignore` | O que não entra no Git. |
-| `scripts/bootstrap.sh` | Script que gera o Laravel e o React usando só Docker. |
-| `docs/openapi.yaml` | Contrato da API: 4 endpoints, enums, erros. |
-| `docs/PLANO.md` | Divisão dos 7 dias. |
-| `docs/USO-DE-IA.md` | Registro de uso de IA, exigido pelo edital. |
-| `README.md` | Esqueleto com as seções obrigatórias. |
-| `CLAUDE.md` | Contexto do desafio para consulta. |
-| `api/.gitkeep`, `web/.gitkeep` | Marcadores para as pastas vazias entrarem no Git. Apagados depois. |
+| `docker-compose.yml` | Os três serviços, portas, volumes, ordem de subida e o roteiro de inicialização da API |
+| `docker/api/Dockerfile` | Imagem do PHP 8.4 com as extensões do PostgreSQL |
+| `docker/web/Dockerfile` | Imagem do Node 20 |
+| `.env.example`, `api/.env.example` | Configuração de referência, sem segredos |
+| `.gitignore` | O que não é versionado |
+| `scripts/bootstrap.sh` | Geração do esqueleto do Laravel e do React usando apenas Docker |
 
-Decisões tomadas nesta fase, e que são minhas para justificar em entrevista:
+### Domínio e backend
 
-- Postgres 16, PHP 8.4, Node 20 como versões.
-- Frontend e backend em pastas separadas no mesmo repositório.
-- Servidor embutido do Laravel (`artisan serve`) em vez de nginx com php-fpm.
-- Migrations e seeders rodando automaticamente na subida do container.
-- Health check da API verificando a conexão com o banco.
-- Sem autenticação, porque o escopo do desafio não define perfis distintos.
-- Nenhuma biblioteca de terceiro adicionada.
-
----
-
-## Fase 2 — Gerado por ferramenta
-
-Duas linhas do `scripts/bootstrap.sh` produziram tudo o que existe em `api/` e
-`web/`.
-
-### Backend, linha 19 do bootstrap
-
-```bash
-composer create-project laravel/laravel .
-```
-
-O que isso produziu:
-
-- O esqueleto do Laravel: `app/`, `config/`, `routes/`, `database/`, `public/`,
-  `storage/`, `tests/`, `bootstrap/`, `artisan`. **60 arquivos.**
-- O `api/composer.json`, escrito pela equipe do Laravel, não por mim. Ele é que
-  lista `laravel/framework: ^13.17` e `laravel/tinker: ^3.0`.
-- A pasta `api/vendor/`, com **8.853 arquivos**, que são as dependências do
-  Laravel e as dependências delas. Baixadas pelo Composer, não escolhidas por
-  ninguém aqui.
-- O `api/.env` com a `APP_KEY` gerada.
-
-### Frontend, linha 28 do bootstrap
-
-```bash
-npm create vite@latest . -- --template react-ts
-```
-
-O que isso produziu: **19 arquivos** em `web/`, incluindo o `package.json` que
-lista React, React DOM, TypeScript, Vite e oxlint. Essa lista é do template do
-Vite, não minha.
-
-O `web/node_modules` não está na pasta do projeto. Ele vive num volume do
-Docker, criado pelo `npm install` que roda no `command` do serviço `web`.
-
-### Imagens baixadas do Docker Hub
-
-Não são arquivos do repositório, são ambientes prontos:
-
-- `postgres:16-alpine` — o banco inteiro.
-- `php:8.4-cli-alpine` — base do container do backend.
-- `node:20-alpine` — base do container do frontend.
-- `composer:2` — usada uma vez no bootstrap e descartada.
-
----
-
-## Fase 3 — Escrito e corrigido à mão, depois da instalação
-
-| Arquivo | O que foi feito | Por quê |
-|---|---|---|
-| `api/routes/api.php` | **Criado.** Rota `/health` que confere a conexão com o Postgres. | O Laravel 13 não cria esse arquivo sozinho. |
-| `api/bootstrap/app.php` | **Editado**, 2 linhas: `api:` e `apiPrefix: 'api/v1'`. | Registrar o arquivo de rotas e definir o prefixo da URL. |
-| `scripts/bootstrap.sh` | **Corrigido.** Apagar os `.gitkeep` antes de instalar, e remover uma flag inválida do Vite. | O Composer recusa instalar em pasta não vazia. |
-| `docker/api/Dockerfile` | **Corrigido.** PHP 8.3 → 8.4. | O Laravel 13 exige 8.4. O `vendor` foi resolvido por um PHP mais novo. |
-| `.env` e `.env.example` | **Corrigido.** `DB_PORT_HOST` 5432 → 5433. | Conflito com um Postgres já instalado na máquina. |
-| `api/CLAUDE.md`, `api/AGENTS.md`, `api/database/database.sqlite` | **Apagados.** | Vieram do instalador do Laravel e não servem ao projeto. |
-
----
-
-## O resumo em números
-
-| Origem | Quantidade |
+| Arquivo | O que define |
 |---|---|
-| Escritos à mão antes de instalar | 13 |
-| Escritos ou editados à mão depois | 5 |
-| Gerados pelo esqueleto do Laravel | 60 |
-| Baixados pelo Composer (`vendor/`) | 8.853 |
-| Gerados pelo template do Vite | 19 |
+| `api/database/migrations/..._create_solicitacoes_table.php` | Tabela, restrições e índices |
+| `api/app/Enums/Status.php` | Máquina de transição de status |
+| `api/app/Enums/Categoria.php`, `Prioridade.php` | Valores válidos do domínio |
+| `api/app/Models/Solicitacao.php` | Persistência, protocolo, status inicial, conversão de enums |
+| `api/app/Http/Requests/` (3 arquivos) | Validação de criação, de mudança de status e de filtros |
+| `api/app/Http/Controllers/SolicitacaoController.php` | Os cinco endpoints |
+| `api/app/Http/Resources/SolicitacaoResource.php` | Formato da resposta |
+| `api/routes/api.php` | Mapeamento de rotas |
+| `api/bootstrap/app.php` | Registro das rotas de API e tratamento de 404 |
+| `api/database/seeders/`, `api/database/factories/` | Dados fictícios |
+| `api/lang/pt_BR/validation.php` | Mensagens de validação em português |
+| `api/tests/` | 25 testes |
+| `api/phpunit.xml` | Isolamento da suíte em SQLite |
 
-Ou seja: cerca de 18 arquivos são decisão humana. O resto é framework e
-dependência, igual em qualquer projeto Laravel ou React do mundo.
+### Frontend
+
+| Arquivo | O que define |
+|---|---|
+| `web/src/types/solicitacao.ts` | Contrato da API em TypeScript |
+| `web/src/types/estado.ts` | Os quatro estados de tela |
+| `web/src/api/cliente.ts` | Cliente HTTP e tratamento de erro |
+| `web/src/api/solicitacoes.ts` | Uma função por endpoint |
+| `web/src/features/solicitacoes/` (6 arquivos) | Resumo, filtros, listagem, formulário, detalhe e etiquetas |
+| `web/src/utils/formato.ts` | Formatação de data |
+| `web/src/App.tsx`, `web/src/index.css` | Composição da tela e estilos |
+| `web/vite.config.ts`, `web/src/test/setup.ts` | Configuração dos testes |
+
+### Documentação
+
+`README.md`, `docs/openapi.yaml`, `docs/USO-DE-IA.md`, `docs/PLANO.md` e este
+arquivo.
 
 ---
 
-## O que isso significa para a entrevista
+## Decisões de projeto
 
-O que precisa ser explicável é a coluna de decisões da Fase 1 e os arquivos da
-Fase 3, mais o código de domínio que ainda será escrito.
+Estão registradas e justificadas no README, na seção de decisões
+arquiteturais. As principais: a máquina de transição concentrada em um único
+enum, a ausência de autenticação, a ausência de camada de repositório, os enums
+como texto no banco, a remoção das tabelas fora do domínio, e a configuração do
+Laravel vindo apenas de `api/.env`.
 
-O conteúdo de `vendor/`, o model `User`, as migrations de cache e de filas, e o
-`package.json` que veio dentro de `api/` não são código meu, e dizer isso é a
-resposta correta, não uma desculpa.
+---
+
+## O que não é autoria deste projeto
+
+O esqueleto do Laravel e o template do React com TypeScript, gerados pelos
+instaladores oficiais, e as dependências baixadas pelo Composer e pelo npm, que
+não são versionadas.
+
+Também não são autoria deste projeto o model `User` e as migrations de sessão,
+cache e filas que vêm por padrão no Laravel: foram removidos, porque o domínio
+não os utiliza.
+
+---
+
+## O que precisa ser explicável
+
+Todos os arquivos listados na primeira seção, e todas as decisões da segunda.
+O detalhamento de onde há domínio pleno e onde há limitação reconhecida está em
+[`USO-DE-IA.md`](USO-DE-IA.md).

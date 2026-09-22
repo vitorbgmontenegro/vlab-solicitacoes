@@ -12,6 +12,7 @@ servers:
 
 tags:
   - name: Solicitações
+  - name: Operacao
 
 paths:
   /solicitacoes:
@@ -60,6 +61,58 @@ paths:
               schema: { $ref: '#/components/schemas/SolicitacaoEnvelope' }
         '422':
           $ref: '#/components/responses/ErroValidacao'
+
+  /health:
+    get:
+      tags: [Operacao]
+      summary: Estado da API e da conexao com o banco
+      responses:
+        '200':
+          description: API no ar e banco acessivel
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  api: { type: string, example: ok }
+                  banco: { type: string, example: ok }
+        '503':
+          description: API no ar, banco inacessivel
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  api: { type: string, example: ok }
+                  banco: { type: string, example: indisponivel }
+
+  /solicitacoes/resumo:
+    get:
+      tags: [Solicitações]
+      summary: Contagem de solicitacoes por status
+      description: >
+        Endpoint proprio porque a listagem e paginada: contar no cliente daria
+        o total da pagina. Todos os status aparecem, inclusive os zerados.
+      responses:
+        '200':
+          description: Contagem
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      total: { type: integer, example: 8 }
+                      por_status:
+                        type: object
+                        properties:
+                          RECEBIDA: { type: integer, example: 2 }
+                          EM_ANALISE: { type: integer, example: 2 }
+                          AGENDADA: { type: integer, example: 2 }
+                          CONCLUIDA: { type: integer, example: 1 }
+                          CANCELADA: { type: integer, example: 1 }
 
   /solicitacoes/{id}:
     get:
@@ -143,6 +196,13 @@ components:
           type: string
           nullable: true
           example: null
+        proximos_status_permitidos:
+          type: array
+          description: >
+            Derivado da maquina de estados. Permite que o cliente ofereca
+            apenas as transicoes validas sem reimplementar a regra.
+          items: { $ref: '#/components/schemas/Status' }
+          example: [EM_ANALISE, CANCELADA]
         data_criacao: { type: string, format: date-time }
         data_atualizacao: { type: string, format: date-time }
 

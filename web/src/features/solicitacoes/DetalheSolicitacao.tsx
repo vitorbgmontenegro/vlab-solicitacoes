@@ -55,7 +55,7 @@ export function DetalheSolicitacao({
         mensagem:
           erro instanceof ErroDaApi
             ? erro.message
-            : 'Nao foi possivel alterar o status.',
+            : 'Não foi possível alterar o status.',
       });
     }
   }
@@ -76,7 +76,7 @@ export function DetalheSolicitacao({
         onClick={(evento) => evento.stopPropagation()}
       >
         <header className="painel__cabecalho">
-          <h2 id="titulo-detalhe">Solicitacao {solicitacao.protocolo}</h2>
+          <h2 id="titulo-detalhe">Solicitação {solicitacao.protocolo}</h2>
           <button
             type="button"
             className="botao-fechar"
@@ -114,7 +114,7 @@ export function DetalheSolicitacao({
             </div>
 
             <div className="dados__item dados__item--largo">
-              <dt>Descricao</dt>
+              <dt>Descrição</dt>
               <dd>{solicitacao.descricao}</dd>
             </div>
 
@@ -140,7 +140,7 @@ export function DetalheSolicitacao({
         <footer className="painel__rodape">
           {encerrada ? (
             <p className="painel__nota">
-              Esta solicitacao esta encerrada e nao permite nova alteracao de
+              Esta solicitação está encerrada e não permite nova alteração de
               status.
             </p>
           ) : (

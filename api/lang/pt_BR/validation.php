@@ -10,20 +10,20 @@
  */
 
 return [
-    'required'    => 'O campo :attribute e obrigatorio.',
-    'required_if' => 'O campo :attribute e obrigatorio quando :other for :value.',
+    'required'    => 'O campo :attribute é obrigatório.',
+    'required_if' => 'O campo :attribute é obrigatório quando :other for :value.',
     'string'      => 'O campo :attribute deve ser um texto.',
-    'integer'     => 'O campo :attribute deve ser um numero inteiro.',
-    'enum'        => 'O valor informado em :attribute nao e valido.',
+    'integer'     => 'O campo :attribute deve ser um número inteiro.',
+    'enum'        => 'O valor informado em :attribute não é válido.',
 
     'max' => [
-        'string'  => 'O campo :attribute nao pode ter mais de :max caracteres.',
-        'numeric' => 'O campo :attribute nao pode ser maior que :max.',
+        'string'  => 'O campo :attribute não pode ter mais de :max caracteres.',
+        'numeric' => 'O campo :attribute não pode ser maior que :max.',
     ],
 
     'min' => [
-        'string'  => 'O campo :attribute deve ter no minimo :min caracteres.',
-        'numeric' => 'O campo :attribute deve ser no minimo :min.',
+        'string'  => 'O campo :attribute deve ter no mínimo :min caracteres.',
+        'numeric' => 'O campo :attribute deve ser no mínimo :min.',
     ],
 
     /*
@@ -32,11 +32,11 @@ return [
     'attributes' => [
         'nome_solicitante'         => 'nome do solicitante',
         'justificativa_prioridade' => 'justificativa de prioridade',
-        'descricao'                => 'descricao',
+        'descricao'                => 'descrição',
         'categoria'                => 'categoria',
         'prioridade'               => 'prioridade',
         'status'                   => 'status',
-        'per_page'                 => 'itens por pagina',
-        'page'                     => 'pagina',
+        'per_page'                 => 'itens por página',
+        'page'                     => 'página',
     ],
 ];

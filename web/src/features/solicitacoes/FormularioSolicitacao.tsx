@@ -67,7 +67,7 @@ function validarLocalmente(rascunho: Rascunho): ErrosDeValidacao {
   }
 
   if (rascunho.descricao.trim() === '') {
-    erros.descricao = ['Descreva a solicitacao.'];
+    erros.descricao = ['Descreva a solicitação.'];
   }
 
   if (
@@ -75,7 +75,7 @@ function validarLocalmente(rascunho: Rascunho): ErrosDeValidacao {
     rascunho.justificativa_prioridade.trim() === ''
   ) {
     erros.justificativa_prioridade = [
-      'A justificativa e obrigatoria quando a prioridade for URGENTE.',
+      'A justificativa é obrigatória quando a prioridade for URGENTE.',
     ];
   }
 
@@ -154,7 +154,7 @@ export function FormularioSolicitacao({ aoCriar }: { aoCriar: () => void }) {
   return (
     <section className="cartao">
       <header className="cartao__cabecalho">
-        <h2>Nova solicitacao</h2>
+        <h2>Nova solicitação</h2>
       </header>
 
       <form className="formulario" onSubmit={enviar} noValidate>
@@ -221,7 +221,7 @@ export function FormularioSolicitacao({ aoCriar }: { aoCriar: () => void }) {
         </div>
 
         <div className="campo">
-          <label htmlFor="descricao">Descricao</label>
+          <label htmlFor="descricao">Descrição</label>
           <textarea
             id="descricao"
             rows={3}
@@ -272,13 +272,13 @@ export function FormularioSolicitacao({ aoCriar }: { aoCriar: () => void }) {
 
         {envio.situacao === 'sucesso' && (
           <p className="formulario__aviso formulario__aviso--sucesso" role="status">
-            Solicitacao criada com o protocolo <strong>{envio.protocolo}</strong>.
+            Solicitação criada com o protocolo <strong>{envio.protocolo}</strong>.
           </p>
         )}
 
         <div className="formulario__acoes">
           <button type="submit" className="botao" disabled={enviando}>
-            {enviando ? 'Enviando...' : 'Cadastrar solicitacao'}
+            {enviando ? 'Enviando...' : 'Cadastrar solicitação'}
           </button>
         </div>
       </form>

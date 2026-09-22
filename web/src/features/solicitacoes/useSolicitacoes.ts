@@ -58,7 +58,7 @@ export function useSolicitacoes(filtros: FiltrosSolicitacao) {
           mensagem:
             erro instanceof ErroDaApi
               ? erro.message
-              : 'Ocorreu um erro inesperado ao carregar as solicitacoes.',
+              : 'Ocorreu um erro inesperado ao carregar as solicitações.',
         });
       });
 

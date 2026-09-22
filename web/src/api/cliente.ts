@@ -74,7 +74,7 @@ export async function requisitar<T>(
     // fetch so rejeita quando nao houve resposta: servidor fora do ar,
     // sem rede, ou bloqueio de CORS.
     throw new ErroDaApi(
-      'Nao foi possivel falar com o servidor. Verifique se a API esta no ar.',
+      'Não foi possível falar com o servidor. Verifique se a API está no ar.',
       0,
     );
   }
@@ -94,7 +94,7 @@ export async function requisitar<T>(
   if (!resposta.ok) {
     const erro = (corpo ?? {}) as CorpoDeErro;
     throw new ErroDaApi(
-      erro.message ?? 'A requisicao falhou.',
+      erro.message ?? 'A requisição falhou.',
       resposta.status,
       erro.errors ?? {},
     );

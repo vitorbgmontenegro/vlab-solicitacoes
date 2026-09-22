@@ -41,7 +41,7 @@ export function ListaSolicitacoes({
     corpo = (
       <div className="aviso" role="status" aria-live="polite">
         <span className="girando" aria-hidden="true" />
-        Carregando solicitacoes...
+        Carregando solicitações...
       </div>
     );
   } else if (estado.situacao === 'erro') {
@@ -56,9 +56,9 @@ export function ListaSolicitacoes({
   } else if (estado.situacao === 'vazio') {
     corpo = (
       <div className="aviso">
-        <p>Nenhuma solicitacao encontrada.</p>
+        <p>Nenhuma solicitação encontrada.</p>
         <p className="aviso__detalhe">
-          Ajuste os filtros ou cadastre uma nova solicitacao.
+          Ajuste os filtros ou cadastre uma nova solicitação.
         </p>
       </div>
     );
@@ -68,7 +68,7 @@ export function ListaSolicitacoes({
     corpo = (
       <section className="lista">
         <header className="lista__cabecalho">
-          <h2>Solicitacoes</h2>
+          <h2>Solicitações</h2>
           <p className="lista__contagem">
             {meta.total} {meta.total === 1 ? 'registro' : 'registros'}
           </p>
@@ -77,7 +77,7 @@ export function ListaSolicitacoes({
         <div className="tabela-rolagem">
           <table className="tabela">
             <caption className="visualmente-oculto">
-              Lista de solicitacoes de atendimento. Cada linha abre o detalhe.
+              Lista de solicitações de atendimento. Cada linha abre o detalhe.
             </caption>
             <thead>
               <tr>
@@ -88,7 +88,7 @@ export function ListaSolicitacoes({
                 <th scope="col">Status</th>
                 <th scope="col">Criada em</th>
                 <th scope="col">
-                  <span className="visualmente-oculto">Acoes</span>
+                  <span className="visualmente-oculto">Ações</span>
                 </th>
               </tr>
             </thead>
@@ -118,7 +118,7 @@ export function ListaSolicitacoes({
                       Ver detalhe
                       <span className="visualmente-oculto">
                         {' '}
-                        da solicitacao {solicitacao.protocolo}
+                        da solicitação {solicitacao.protocolo}
                       </span>
                     </button>
                   </td>
@@ -129,7 +129,7 @@ export function ListaSolicitacoes({
         </div>
 
         {meta.last_page > 1 && (
-          <nav className="paginacao" aria-label="Paginacao da listagem">
+          <nav className="paginacao" aria-label="Paginação da listagem">
             <button
               type="button"
               className="botao botao--secundario"
@@ -140,7 +140,7 @@ export function ListaSolicitacoes({
             </button>
 
             <span className="paginacao__indicador" aria-live="polite">
-              Pagina {meta.current_page} de {meta.last_page}
+              Página {meta.current_page} de {meta.last_page}
             </span>
 
             <button
@@ -149,7 +149,7 @@ export function ListaSolicitacoes({
               disabled={meta.current_page >= meta.last_page}
               onClick={() => aoMudarPagina(meta.current_page + 1)}
             >
-              Proxima
+              Próxima
             </button>
           </nav>
         )}

@@ -26,7 +26,7 @@ describe('FormularioSolicitacao', () => {
     render(<FormularioSolicitacao aoCriar={() => {}} />);
 
     await usuario.click(
-      screen.getByRole('button', { name: /cadastrar solicitacao/i }),
+      screen.getByRole('button', { name: /cadastrar solicitação/i }),
     );
 
     expect(screen.getByText(/informe o nome do solicitante/i)).toBeInTheDocument();
@@ -60,14 +60,14 @@ describe('FormularioSolicitacao', () => {
     await usuario.type(screen.getByLabelText(/nome do solicitante/i), 'Maria Ficticia');
     await usuario.selectOptions(screen.getByLabelText(/categoria/i), 'EXAME');
     await usuario.selectOptions(screen.getByLabelText(/^prioridade$/i), 'URGENTE');
-    await usuario.type(screen.getByLabelText(/descricao/i), 'Exame com urgencia.');
+    await usuario.type(screen.getByLabelText(/descrição/i), 'Exame com urgencia.');
 
     await usuario.click(
-      screen.getByRole('button', { name: /cadastrar solicitacao/i }),
+      screen.getByRole('button', { name: /cadastrar solicitação/i }),
     );
 
     expect(
-      screen.getByText(/justificativa e obrigatoria quando a prioridade for urgente/i),
+      screen.getByText(/justificativa é obrigatória quando a prioridade for urgente/i),
     ).toBeInTheDocument();
     expect(criarSolicitacaoFalsa).not.toHaveBeenCalled();
   });
@@ -95,10 +95,10 @@ describe('FormularioSolicitacao', () => {
     await usuario.type(screen.getByLabelText(/nome do solicitante/i), 'Maria Ficticia');
     await usuario.selectOptions(screen.getByLabelText(/categoria/i), 'CONSULTA');
     await usuario.selectOptions(screen.getByLabelText(/^prioridade$/i), 'MEDIA');
-    await usuario.type(screen.getByLabelText(/descricao/i), 'Consulta de rotina.');
+    await usuario.type(screen.getByLabelText(/descrição/i), 'Consulta de rotina.');
 
     await usuario.click(
-      screen.getByRole('button', { name: /cadastrar solicitacao/i }),
+      screen.getByRole('button', { name: /cadastrar solicitação/i }),
     );
 
     expect(criarSolicitacaoFalsa).toHaveBeenCalledWith({

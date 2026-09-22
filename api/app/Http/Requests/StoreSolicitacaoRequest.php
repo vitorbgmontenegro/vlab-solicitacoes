@@ -57,7 +57,7 @@ class StoreSolicitacaoRequest extends FormRequest
     {
         return [
             'justificativa_prioridade.required_if' =>
-                'A justificativa e obrigatoria quando a prioridade for URGENTE.',
+                'A justificativa é obrigatória quando a prioridade for URGENTE.',
         ];
     }
 }

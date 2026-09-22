@@ -34,22 +34,22 @@ export type Prioridade = (typeof PRIORIDADES)[number];
  */
 export const ROTULO_STATUS: Record<Status, string> = {
   RECEBIDA: 'Recebida',
-  EM_ANALISE: 'Em analise',
+  EM_ANALISE: 'Em análise',
   AGENDADA: 'Agendada',
-  CONCLUIDA: 'Concluida',
+  CONCLUIDA: 'Concluída',
   CANCELADA: 'Cancelada',
 };
 
 export const ROTULO_CATEGORIA: Record<Categoria, string> = {
   CONSULTA: 'Consulta',
   EXAME: 'Exame',
-  VACINACAO: 'Vacinacao',
+  VACINACAO: 'Vacinação',
   OUTRO: 'Outro',
 };
 
 export const ROTULO_PRIORIDADE: Record<Prioridade, string> = {
   BAIXA: 'Baixa',
-  MEDIA: 'Media',
+  MEDIA: 'Média',
   ALTA: 'Alta',
   URGENTE: 'Urgente',
 };

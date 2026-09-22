@@ -44,7 +44,7 @@ class AtualizarStatusRequest extends FormRequest
 
                     if (! $atual->podeTransicionarPara($novo)) {
                         $falhar(sprintf(
-                            'Nao e possivel alterar o status de %s para %s.',
+                            'Não é possível alterar o status de %s para %s.',
                             $atual->value,
                             $novo->value,
                         ));

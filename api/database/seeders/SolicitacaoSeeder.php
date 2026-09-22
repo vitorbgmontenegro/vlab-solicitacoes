@@ -9,15 +9,15 @@ use App\Models\Solicitacao;
 use Illuminate\Database\Seeder;
 
 /**
- * Dados iniciais ficticios, para quem for avaliar abrir a aplicacao e ja
- * encontrar conteudo em todos os filtros.
+ * Dados iniciais fictícios, para quem for avaliar abrir a aplicação e já
+ * encontrar conteúdo em todos os filtros.
  *
- * Os registros sao fixos, e nao aleatorios, por dois motivos: garantem que
- * todos os status, categorias e prioridades aparecam pelo menos uma vez, e
- * fazem a tela ser sempre a mesma em qualquer maquina.
+ * Os registros são fixos, e não aleatórios, por dois motivos: garantem que
+ * todos os status, categorias e prioridades apareçam pelo menos uma vez, e
+ * fazem a tela ser sempre a mesma em qualquer máquina.
  *
- * Idempotente: se a tabela ja tiver qualquer linha, nao faz nada. Isso e
- * necessario porque o seeder roda a cada subida do container.
+ * Idempotente: se a tabela já tiver qualquer linha, não faz nada. Isso é
+ * necessário porque o seeder roda a cada subida do container.
  */
 class SolicitacaoSeeder extends Seeder
 {
@@ -33,9 +33,9 @@ class SolicitacaoSeeder extends Seeder
 
             $solicitacao = Solicitacao::create($registro);
 
-            // Toda solicitacao nasce RECEBIDA, pela regra do model. Aqui o
-            // status e ajustado diretamente porque isto e carga de dados de
-            // exemplo, e nao uma acao de usuario passando pela API.
+            // Toda solicitação nasce RECEBIDA, pela regra do model. Aqui o
+            // status é ajustado diretamente porque isto é carga de dados de
+            // exemplo, e não uma ação de usuário passando pela API.
             if ($statusFinal !== Status::RECEBIDA) {
                 $solicitacao->status = $statusFinal;
                 $solicitacao->save();
@@ -53,7 +53,7 @@ class SolicitacaoSeeder extends Seeder
                 'nome_solicitante' => 'Maria Aparecida dos Santos',
                 'categoria'        => Categoria::CONSULTA,
                 'prioridade'       => Prioridade::MEDIA,
-                'descricao'        => 'Solicitacao de consulta com clinico geral para avaliacao de rotina.',
+                'descricao'        => 'Solicitação de consulta com clínico geral para avaliação de rotina.',
                 'justificativa_prioridade' => null,
                 'status'           => Status::RECEBIDA,
             ],
@@ -61,15 +61,15 @@ class SolicitacaoSeeder extends Seeder
                 'nome_solicitante' => 'Joao Batista de Oliveira',
                 'categoria'        => Categoria::EXAME,
                 'prioridade'       => Prioridade::URGENTE,
-                'descricao'        => 'Exame de imagem solicitado apos atendimento em pronto-socorro.',
-                'justificativa_prioridade' => 'Encaminhamento com carater de urgencia emitido pela unidade.',
+                'descricao'        => 'Exame de imagem solicitado após atendimento em pronto-socorro.',
+                'justificativa_prioridade' => 'Encaminhamento com caráter de urgência emitido pela unidade.',
                 'status'           => Status::EM_ANALISE,
             ],
             [
                 'nome_solicitante' => 'Ana Lucia Ferreira',
                 'categoria'        => Categoria::VACINACAO,
                 'prioridade'       => Prioridade::BAIXA,
-                'descricao'        => 'Atualizacao do calendario vacinal.',
+                'descricao'        => 'Atualização do calendário vacinal.',
                 'justificativa_prioridade' => null,
                 'status'           => Status::AGENDADA,
             ],
@@ -85,7 +85,7 @@ class SolicitacaoSeeder extends Seeder
                 'nome_solicitante' => 'Beatriz Almeida Rocha',
                 'categoria'        => Categoria::OUTRO,
                 'prioridade'       => Prioridade::BAIXA,
-                'descricao'        => 'Solicitacao de segunda via de documento de atendimento.',
+                'descricao'        => 'Solicitação de segunda via de documento de atendimento.',
                 'justificativa_prioridade' => null,
                 'status'           => Status::CANCELADA,
             ],
@@ -101,15 +101,15 @@ class SolicitacaoSeeder extends Seeder
                 'nome_solicitante' => 'Fernanda Souza Martins',
                 'categoria'        => Categoria::VACINACAO,
                 'prioridade'       => Prioridade::URGENTE,
-                'descricao'        => 'Vacinacao pos-exposicao com prazo definido.',
-                'justificativa_prioridade' => 'Prazo clinico curto informado pela unidade de origem.',
+                'descricao'        => 'Vacinação pós-exposição com prazo definido.',
+                'justificativa_prioridade' => 'Prazo clínico curto informado pela unidade de origem.',
                 'status'           => Status::AGENDADA,
             ],
             [
                 'nome_solicitante' => 'Paulo Henrique Ribeiro',
                 'categoria'        => Categoria::CONSULTA,
                 'prioridade'       => Prioridade::BAIXA,
-                'descricao'        => 'Primeira consulta para avaliacao geral.',
+                'descricao'        => 'Primeira consulta para avaliação geral.',
                 'justificativa_prioridade' => null,
                 'status'           => Status::RECEBIDA,
             ],

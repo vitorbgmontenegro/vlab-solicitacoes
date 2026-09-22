@@ -46,7 +46,7 @@ export function ResumoSolicitacoes({
           mensagem:
             erro instanceof ErroDaApi
               ? erro.message
-              : 'Nao foi possivel carregar o resumo.',
+              : 'Não foi possível carregar o resumo.',
         });
       });
 

@@ -48,10 +48,10 @@ export default function App() {
     <div className="pagina">
       <header className="topo">
         <div className="topo__conteudo">
-          <h1>Solicitacoes de Atendimento</h1>
+          <h1>Solicitações de Atendimento</h1>
           <p className="topo__subtitulo">
-            Registro e acompanhamento de solicitacoes encaminhadas a unidades
-            publicas de saude
+            Registro e acompanhamento de solicitações encaminhadas a unidades
+            públicas de saúde
           </p>
         </div>
       </header>
