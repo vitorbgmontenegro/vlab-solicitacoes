@@ -114,4 +114,61 @@ describe('FormularioSolicitacao', () => {
     expect(await screen.findByText(/SOL-2026-TESTE01/)).toBeInTheDocument();
     expect(aoCriar).toHaveBeenCalledOnce();
   });
+
+  /*
+   * O aviso de sucesso fala do envio anterior. Ele precisa sair da tela de
+   * duas formas: no botao de fechar e assim que a pessoa comeca outro
+   * cadastro. Sem isso o aviso fica preso na tela para sempre.
+   */
+  describe('aviso de sucesso', () => {
+    async function enviarComSucesso() {
+      const usuario = userEvent.setup();
+
+      criarSolicitacaoFalsa.mockResolvedValue({
+        id: 1,
+        protocolo: 'SOL-2026-TESTE01',
+        nome_solicitante: 'Maria Ficticia',
+        categoria: 'CONSULTA',
+        prioridade: 'MEDIA',
+        status: 'RECEBIDA',
+        descricao: 'Consulta de rotina.',
+        justificativa_prioridade: null,
+        proximos_status_permitidos: ['EM_ANALISE', 'CANCELADA'],
+        data_criacao: '2026-09-22T12:00:00+00:00',
+        data_atualizacao: '2026-09-22T12:00:00+00:00',
+      });
+
+      render(<FormularioSolicitacao aoCriar={() => {}} />);
+
+      await usuario.type(
+        screen.getByLabelText(/nome do solicitante/i),
+        'Maria Ficticia',
+      );
+      await usuario.selectOptions(screen.getByLabelText(/categoria/i), 'CONSULTA');
+      await usuario.selectOptions(screen.getByLabelText(/^prioridade$/i), 'MEDIA');
+      await usuario.type(screen.getByLabelText(/descrição/i), 'Consulta de rotina.');
+      await usuario.click(
+        screen.getByRole('button', { name: /cadastrar solicitação/i }),
+      );
+
+      expect(await screen.findByText(/SOL-2026-TESTE01/)).toBeInTheDocument();
+      return usuario;
+    }
+
+    it('sai da tela no botao de fechar', async () => {
+      const usuario = await enviarComSucesso();
+
+      await usuario.click(screen.getByRole('button', { name: /fechar aviso/i }));
+
+      expect(screen.queryByText(/SOL-2026-TESTE01/)).not.toBeInTheDocument();
+    });
+
+    it('sai da tela quando a pessoa comeca a preencher de novo', async () => {
+      const usuario = await enviarComSucesso();
+
+      await usuario.type(screen.getByLabelText(/nome do solicitante/i), 'J');
+
+      expect(screen.queryByText(/SOL-2026-TESTE01/)).not.toBeInTheDocument();
+    });
+  });
 });

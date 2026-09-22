@@ -104,6 +104,13 @@ export function FormularioSolicitacao({ aoCriar }: { aoCriar: () => void }) {
       delete copia[campo];
       return copia;
     });
+
+    // O aviso de sucesso e os erros vindos da API se referem ao envio
+    // anterior. No momento em que a pessoa edita qualquer campo, o rascunho
+    // deixou de ser aquele, entao o formulario volta ao estado neutro.
+    setEnvio((anterior) =>
+      anterior.situacao === 'parado' ? anterior : { situacao: 'parado' },
+    );
   }
 
   async function enviar(evento: React.FormEvent) {
@@ -271,9 +278,23 @@ export function FormularioSolicitacao({ aoCriar }: { aoCriar: () => void }) {
         )}
 
         {envio.situacao === 'sucesso' && (
-          <p className="formulario__aviso formulario__aviso--sucesso" role="status">
-            Solicitação criada com o protocolo <strong>{envio.protocolo}</strong>.
-          </p>
+          <div
+            className="formulario__aviso formulario__aviso--sucesso formulario__aviso--fechavel"
+            role="status"
+          >
+            <p>
+              Solicitação criada com o protocolo{' '}
+              <strong>{envio.protocolo}</strong>.
+            </p>
+            <button
+              type="button"
+              className="formulario__aviso__fechar"
+              onClick={() => setEnvio({ situacao: 'parado' })}
+              aria-label="Fechar aviso"
+            >
+              &times;
+            </button>
+          </div>
         )}
 
         <div className="formulario__acoes">

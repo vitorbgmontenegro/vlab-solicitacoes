@@ -402,6 +402,38 @@ body {
   background-color: #e2f3e9;
 }
 
+/* Aviso que a pessoa pode dispensar: texto de um lado, botao do outro. */
+.formulario__aviso--fechavel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.formulario__aviso--fechavel p {
+  margin: 0;
+}
+
+.formulario__aviso__fechar {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  font-size: 1.125rem;
+  line-height: 1;
+  color: inherit;
+  background: none;
+  border: none;
+  border-radius: var(--raio);
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.formulario__aviso__fechar:hover {
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
 .botao:disabled {
   background-color: #9fb4cc;
   cursor: not-allowed;
