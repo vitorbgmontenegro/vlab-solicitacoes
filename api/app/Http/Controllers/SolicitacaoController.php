@@ -39,6 +39,37 @@ class SolicitacaoController extends Controller
     }
 
     /**
+     * GET /api/v1/solicitacoes/resumo
+     *
+     * Contagem por status, para a tela inicial.
+     *
+     * Existe como endpoint proprio porque a listagem e paginada: contar no
+     * frontend daria o total da pagina, nao o total real. Uma consulta
+     * agrupada resolve com uma ida ao banco.
+     */
+    public function resumo(): JsonResponse
+    {
+        $contagem = Solicitacao::query()
+            ->selectRaw('status, count(*) as total')
+            ->groupBy('status')
+            ->pluck('total', 'status');
+
+        // Percorre os cases do enum, e nao o resultado da consulta, para que
+        // status sem nenhuma solicitacao apareca com zero em vez de sumir.
+        $porStatus = [];
+        foreach (Status::cases() as $status) {
+            $porStatus[$status->value] = (int) ($contagem[$status->value] ?? 0);
+        }
+
+        return response()->json([
+            'data' => [
+                'total' => array_sum($porStatus),
+                'por_status' => $porStatus,
+            ],
+        ]);
+    }
+
+    /**
      * POST /api/v1/solicitacoes
      *
      * Cria uma solicitação. O protocolo e o status inicial são definidos pelo

@@ -31,5 +31,8 @@ Route::get('/health', function () {
 
 Route::get('/solicitacoes', [SolicitacaoController::class, 'index']);
 Route::post('/solicitacoes', [SolicitacaoController::class, 'store']);
+// Precisa vir antes da rota com {solicitacao}: declarada depois, a palavra
+// "resumo" seria interpretada como um identificador e nao casaria.
+Route::get('/solicitacoes/resumo', [SolicitacaoController::class, 'resumo']);
 Route::get('/solicitacoes/{solicitacao}', [SolicitacaoController::class, 'show']);
 Route::patch('/solicitacoes/{solicitacao}/status', [SolicitacaoController::class, 'atualizarStatus']);
