@@ -52,8 +52,7 @@ README.
 
 ### Documentação
 
-`README.md`, `docs/openapi.yaml`, `docs/USO-DE-IA.md`, `docs/PLANO.md` e este
-arquivo.
+`README.md`, `docs/openapi.yaml`, `docs/USO-DE-IA.md` e este arquivo.
 
 ---
 
